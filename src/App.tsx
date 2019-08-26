@@ -14,7 +14,8 @@ fetch(apiUrl, {
   body: JSON.stringify(obj)
 }).then((res) => {
   if (res.status !== 200) {
-      throw new Error('错误 ' + res);
+      // throw new Error('错误 ' + res);
+      return;
   }
   return res.json().then((resJson) => resJson )
 })
