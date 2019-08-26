@@ -3,12 +3,12 @@ import {Button} from 'antd'
 import './App.css';
 import {fetchGet ,fetchPost} from './utils/fetchUtil'
 
-const obj:Object = {
-	"username":"jack",
-	"password":"123"
-},
-apiUrl:string = '/blog/login?name={username}';
-fetchPost(apiUrl,obj)
+// const obj:Object = {
+// 	"username":"jack",
+// 	"password":"123"
+// },
+// apiUrl:string = '/blog/login?name={username}';
+// fetchPost(apiUrl,obj)
 
 
 // fetch(apiUrl, {
