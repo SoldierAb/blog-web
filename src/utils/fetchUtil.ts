@@ -1,5 +1,5 @@
+// import Qs from '@types/qs'
 import Qs from 'qs'
-
 
 export enum ContentType {
     json = 'application/json;charset=UTF-8',
@@ -29,8 +29,6 @@ export interface FetchConfig {
     'Content-Type'?: string
 }
 
-export const baseUrl = '/'
-
 export const fetchInstance = async (url: string, config: FetchConfig) => {
     let promise: Response
     let contentType: string
@@ -55,7 +53,8 @@ export const fetchInstance = async (url: string, config: FetchConfig) => {
         promise = await fetch(url, {
             headers,
             method: HttpMethod.post,
-            body: Qs.stringify(config.body)
+            // body: Qs.stringify(config.body)
+            body: JSON.stringify(config.body)
         })
     } else {
         promise = await fetch(url, {
