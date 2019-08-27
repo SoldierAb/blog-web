@@ -22,8 +22,4 @@ const mapDispatch = (dispatch: Dispatch) => {
 }
 
 
-export function mergeProps(stateProps: any, dispatchProps: any, ownProps: any) {
-    return { ...stateProps, ...dispatchProps, ...ownProps }
-}
-
 export default connect(mapState, mapDispatch)(Demo)

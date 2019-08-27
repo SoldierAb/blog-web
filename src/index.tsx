@@ -5,12 +5,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux'
 import Store from './store/index'
-import Todo from './views/todo/index'
 
 ReactDOM.render(
     <Provider store={Store}>
-        {/* <App /> */}
-        <Todo></Todo>
+        <App />
     </Provider>
     , document.getElementById('root'));
 

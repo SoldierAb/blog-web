@@ -1,12 +1,17 @@
 import {message} from 'antd';
 import * as LoadingTypes from '../components/loading/ActionTypes';
 
-const isPromise = (obj) => {
+const isPromise = (obj:any):boolean => {
     return obj && typeof obj.then === 'function'
 }
 
-const promiseMiddleware = ({ dispatch }) => {
-    return (next) => (action) => {
+interface RESULT{
+    code:number
+    msg:string
+}
+
+const promiseMiddleware = ({ dispatch }:any) => {
+    return (next:any) => (action:any) => {
         const { promise, types, ...rest } = action;
         if (!isPromise(promise) || !(types && types.length === 3)) {
             return next(action);
@@ -16,10 +21,11 @@ const promiseMiddleware = ({ dispatch }) => {
 
         dispatch({ type: PENDING, ...rest });
         dispatch({ type: LoadingTypes.LOADING_SHOW});
+        
         return promise.then(
-            (res) => {
+            (res:RESULT) => {
                 dispatch({ type: LoadingTypes.LOADING_HIDE})
-                if (res.code === 200) {
+                if (res.code===200) {
                     message.info(res.msg,2);
                    return dispatch({ type: DONE, res, ...rest });
                 } else {
@@ -27,7 +33,7 @@ const promiseMiddleware = ({ dispatch }) => {
                     return dispatch({ type: FAIL, res, ...rest });
                 }
             },
-            (err) =>{
+            (err:any) =>{
                 dispatch({ type: LoadingTypes.LOADING_HIDE})
                 message.error(err);
                 return dispatch({ type: FAIL, err, ...rest })

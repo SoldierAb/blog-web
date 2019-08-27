@@ -1,15 +1,27 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import promiseMiddleware from '../middleware/promise'
 import demoreducer from '../reducers/demoReducer'
+import {reducer as loginReducer} from '../views/login'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 const reducer = combineReducers({
-    demo: demoreducer
+    demo: demoreducer,
+    login:loginReducer
 })
+
+
+const middlewares = [promiseMiddleware];
+
+const storeEnhancers = compose(
+    applyMiddleware(...middlewares),
+    composeWithDevTools()
+);
+
 
 const StoreConfig = createStore(
     reducer,
     {},
-    composeWithDevTools()
+    storeEnhancers
 )
 
 export default StoreConfig
