@@ -7,6 +7,7 @@ export enum ContentType {
 }
 
 export enum HttpMethod {
+    form = "Form",
     post = 'Post',
     get = 'Get',
     put = 'Put',
@@ -35,7 +36,7 @@ export const fetchInstance = async (url: string, config: FetchConfig) => {
 
     if (config['Content-Type'] !== undefined) {
         contentType = config['Content-Type']
-    } else if (config.method === HttpMethod.post) {
+    } else if (config.method === HttpMethod.form) {
         contentType = ContentType.form
     } else {
         contentType = ContentType.json
@@ -49,12 +50,11 @@ export const fetchInstance = async (url: string, config: FetchConfig) => {
         promise = await fetch(url, {
             headers
         })
-    } else if (config.method === HttpMethod.post) {
+    } else if (config.method === HttpMethod.form) {
         promise = await fetch(url, {
             headers,
             method: HttpMethod.post,
-            // body: Qs.stringify(config.body)
-            body: JSON.stringify(config.body)
+            body: Qs.stringify(config.body)
         })
     } else {
         promise = await fetch(url, {
@@ -130,4 +130,20 @@ export function fetchPost(url: string, params: any) {
         }
     })
 }
+
+export function fetchForm(url: string, params: any) {
+    const fetchUrl: string = tplFunc(url, params);
+    return new Promise(async (resolve, reject) => {
+        try {
+            const res = await fetchInstance(fetchUrl, {
+                body: params,
+                method: HttpMethod.form
+            });
+            resolve(res);
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 

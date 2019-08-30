@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
 import ReactMde from 'react-mde'
-import ReactDom from 'react-dom'
 import * as Showdown from 'showdown'
 import "react-mde/lib/styles/css/react-mde-all.css"
+import {fetchPost,fetchForm}  from '../../utils/fetchUtil'
 
 const converter = new Showdown.Converter({
     tables: true,
@@ -17,8 +17,10 @@ enum selectedTab{
 } 
 
 interface MProps{
-    setValue?:()=>void
-    setSelectedTab?:()=>void
+    setValue?:(value:string)=>void
+    setSelectedTab?:(tab:string)=>void
+    getValue?:()=>string
+    getTab?:()=>string
 }
 
 
@@ -29,27 +31,45 @@ interface MValue{
 
 export default class MarkDown extends React.Component<MProps,MValue>{
 
-    constructor(props:MProps){
+    public constructor(props:MProps){
         super(props);
         this.state={
-            value:"**Hello world!!!**",
+            value:(function (){
+                let str="";
+                for(let i=0;i<999;i++){
+                    str+="**测试博客 No.1!!!**"
+                }
+                return str
+            })(),
             selectedTab:selectedTab[selectedTab.write]
         }
     }
 
-    setValue = (value:string)=>{
+    public getValue = ():string=>{
+        return this.state.value
+    }
+
+    public setValue = (value:string)=>{
         this.setState({
             value
         })
     }
 
-    setSelectedTab = (selectedTab:string)=>{
+    public setSelectedTab = (selectedTab:string)=>{
         this.setState({
             selectedTab
         })
     }
 
-
+    componentDidMount(){
+        console.log(this.state.value);
+        const {value:content} = this.state;
+        fetchForm('blog/addmarkdown',{
+            title:'测试',
+            content,
+            created_time:new Date().getTime()
+        })
+    }
 
     render():ReactNode{
         const {value,selectedTab} = this.state;

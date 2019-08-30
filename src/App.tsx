@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button} from 'antd'
 import './App.css';
 import {view as Login} from './views/login'
 import MarkDown from './components/mark-down/MarkDown'

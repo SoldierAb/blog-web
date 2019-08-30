@@ -1,17 +1,24 @@
 import {message} from 'antd';
 import * as LoadingTypes from '../components/loading/ActionTypes';
+import {Dispatch} from 'redux'
 
 const isPromise = (obj:any):boolean => {
     return obj && typeof obj.then === 'function'
 }
 
-interface RESULT{
+export interface RESULT{
     code:number
     msg:string
 }
 
+export interface PromiseAction{
+    types:Array<string>
+    promise:Promise<any>
+}
+
+
 const promiseMiddleware = ({ dispatch }:any) => {
-    return (next:any) => (action:any) => {
+    return (next:any) => (action:PromiseAction) => {
         const { promise, types, ...rest } = action;
         if (!isPromise(promise) || !(types && types.length === 3)) {
             return next(action);

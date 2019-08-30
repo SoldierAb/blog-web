@@ -1,18 +1,21 @@
-import React from 'react';
+import React,{ReactNode} from 'react';
 import { connect } from 'react-redux'
-import "./login.scss"
+import { Form, Icon, Input, Button } from 'antd'
+import {FormComponentProps} from 'antd/lib/form/Form'
 import * as Actions from '../Actions'
 import * as LoginStatusTypes from '../Status'
-import { Form, Icon, Input, Button } from 'antd'
+import "./login.scss"
 const FormItem = Form.Item
 
-class NormalLoginForm extends React.Component<any, {}> {
+export interface LoginProps extends FormComponentProps{
+    handleSubmit:()=>void
+    clickSignIn:(obj:any)=>void
+    loginStatus:LoginStatusTypes.LoginStatusAll
+}
 
-    constructor(props: any) {
-        super(props);
-    }
+class NormalLoginForm extends React.Component<LoginProps, {}> {
 
-    handleSubmit = (e: any) => {
+    public handleSubmit = (e: any) => {
         e.preventDefault();
         const _this = this;
         this.props.form.validateFields((err: any, values: object) => {
@@ -22,7 +25,7 @@ class NormalLoginForm extends React.Component<any, {}> {
         });
     }
 
-    componentDidUpdate() {
+    public  componentDidUpdate() {
         if (this.props.loginStatus === LoginStatusTypes.NOTLOGGED) {
             console.log('未登录');
         }
@@ -31,7 +34,7 @@ class NormalLoginForm extends React.Component<any, {}> {
         }
     }
 
-    render(): any {
+    public render(): ReactNode {
         const { getFieldDecorator } = this.props.form;
         const isLogin = this.props.loginStatus === LoginStatusTypes.LOGGEDIN ? true : false;
         if (isLogin) {
@@ -65,9 +68,9 @@ class NormalLoginForm extends React.Component<any, {}> {
     }
 }
 
-const Login = Form.create()(NormalLoginForm);
+const Login = Form.create<any>()(NormalLoginForm);
 
-const mapDispatch = (dispatch: any) => {
+const mapDispatch = (dispatch:any) => {
     return {
         clickSignIn: (obj: Actions.LoginData) => {
             dispatch(Actions.signIn(obj))
@@ -78,6 +81,7 @@ const mapDispatch = (dispatch: any) => {
 const mapState = (state: any) => {
     return {
         loginStatus: state.login.status,
+        currentUser:state.login.username
     }
 }
 
