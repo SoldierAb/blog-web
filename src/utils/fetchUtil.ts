@@ -26,7 +26,6 @@ export interface FetchConfig {
     body?: any
     method?: string
     headers?: FetchHeader
-    token?: string
     'Content-Type'?: string
 }
 
@@ -43,7 +42,8 @@ export const fetchInstance = async (url: string, config: FetchConfig) => {
     }
 
     const headers: Headers = new Headers({
-        'Content-Type': contentType
+        'Content-Type': contentType,
+        'token':localStorage.getItem("blog_token")||""
     } as FetchHeader)
 
     if (!config.method || config.method === HttpMethod.get) {
@@ -72,8 +72,15 @@ export const fetchInstance = async (url: string, config: FetchConfig) => {
 
 const HandleRes = async (res: Response) => {
     const parsedRes = await parseRes(res);
-
     if (res.ok) {
+        console.log(res,parsedRes);
+        //结果集拦截
+
+        if(parsedRes.code!==0){
+            
+        }
+
+
         return parsedRes
     }
     throw parsedRes

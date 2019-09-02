@@ -2,7 +2,8 @@ import React, { ReactNode } from 'react'
 import ReactMde from 'react-mde'
 import * as Showdown from 'showdown'
 import "react-mde/lib/styles/css/react-mde-all.css"
-import {fetchPost,fetchForm}  from '../../utils/fetchUtil'
+import {fetchForm}  from '../../utils/fetchUtil'
+import {API_CONFIG} from '../../config'
 
 const converter = new Showdown.Converter({
     tables: true,
@@ -64,7 +65,7 @@ export default class MarkDown extends React.Component<MProps,MValue>{
     componentDidMount(){
         console.log(this.state.value);
         const {value:content} = this.state;
-        fetchForm('blog/addmarkdown',{
+        fetchForm(API_CONFIG.MARKDOWN_ADD,{
             title:'测试',
             content,
             created_time:new Date().getTime()
@@ -80,7 +81,7 @@ export default class MarkDown extends React.Component<MProps,MValue>{
                     selectedTab={selectedTab}
                     onChange={this.setValue}
                     onTabChange={this.setSelectedTab}
-                    generateMarkdownPreview={markdown =>
+                    generateMarkdownPreview={ (markdown:any) =>
                         Promise.resolve(converter.makeHtml(markdown))
                     }
                 />

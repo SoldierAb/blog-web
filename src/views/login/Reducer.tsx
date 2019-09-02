@@ -1,22 +1,24 @@
 import * as ActionTypes from './ActionTypes'
 import * as LoginStatus from './Status'
-import {Login} from './Store'
+import { Login } from './Store'
 
 const initState = {
-    status:LoginStatus.NOTLOGGED
+    status: LoginStatus.NOTLOGGED
 }
 
-export default (state:Login = initState,action:any)=>{
-    const {type,res} = action;
-    console.log(type,res);
-    switch(type){
+export default (state: Login = initState, action: any) => {
+    const { type, res } = action;
+    console.log(type, res);
+    switch (type) {
         case ActionTypes.LOGIN_SUCCESS:    //登陆成功返回当前用户名
-            return {...state,status:LoginStatus.LOGGEDIN,username:res.data.username}
+            console.log(res.data);
+            localStorage.setItem("blog_token", res.data[0].token)
+            return { ...state, status: LoginStatus.LOGGEDIN, username: res.data[0].username }
         case ActionTypes.LOGIN_PENDING:
-            return {...state,status:LoginStatus.NOTLOGGED}    
+            return { ...state, status: LoginStatus.NOTLOGGED }
         case ActionTypes.LOGIN_FAIL:
-            return {...state,status:LoginStatus.NOTLOGGED}    
+            return { ...state, status: LoginStatus.NOTLOGGED }
         default:
-            return state    
+            return state
     }
 }

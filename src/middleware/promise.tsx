@@ -32,7 +32,7 @@ const promiseMiddleware = ({ dispatch }:any) => {
         return promise.then(
             (res:RESULT) => {
                 dispatch({ type: LoadingTypes.LOADING_HIDE})
-                if (res.code===200) {
+                if (res.code===0) {
                     message.info(res.msg,2);
                    return dispatch({ type: DONE, res, ...rest });
                 } else {
