@@ -1,4 +1,4 @@
-# 三千字讲清TypeScript与React的实战技巧
+# TypeScript与React的实战
 
 很多时候虽然我们了解了TypeScript相关的基础知识，但是这不足以保证我们在实际项目中可以灵活运用，比如现在绝大部分前端开发者的项目都是依赖于框架的，因此我们需要来讲一下React与TypeScript应该如何结合运用。
 
