@@ -8,14 +8,14 @@ import "./login.scss"
 const FormItem = Form.Item
 
 export interface LoginProps extends FormComponentProps{
-    handleSubmit:()=>void
+    handleSubmit:(e: React.ChangeEvent<HTMLFormElement>)=>void
     clickSignIn:(obj:any)=>void
     loginStatus:LoginStatusTypes.LoginStatusAll
 }
 
 class NormalLoginForm extends React.Component<LoginProps, {}> {
 
-    public handleSubmit = (e: any) => {
+    private handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         const _this = this;
         this.props.form.validateFields((err: any, values: object) => {
